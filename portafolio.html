@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portafolio - David Santiago Ortiz Calderón</title>
+  <!-- Importar Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Estilos CSS -->
+  <style>
+    :root {
+      --bg-color: #000;
+      --primary-color: #fff;
+      --accent-color: #F39C12;
+      --font-family: 'Montserrat', sans-serif;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: var(--font-family);
+      background: var(--bg-color);
+      color: var(--primary-color);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    /* Preloader */
+    #loader {
+      position: fixed;
+      z-index: 2000;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .spinner {
+      border: 4px solid #333;
+      border-top: 4px solid var(--accent-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /* Navegación */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 0;
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+    }
+    nav ul li {
+      margin: 0 25px;
+    }
+    nav ul li a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s, transform 0.3s;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+    /* Header */
+    header {
+      height: 100vh;
+      background: url('yo.jpeg') no-repeat center center/cover;
+      position: relative;
+      overflow: hidden;
+    }
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 1;
+    }
+    .header-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    .header-content h1 {
+      font-size: 3.5em;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+    .header-content .typewriter {
+      font-size: 1.5em;
+      margin-bottom: 30px;
+      min-height: 30px;
+    }
+    .header-content a.btn {
+      background: var(--accent-color);
+      color: var(--bg-color);
+      padding: 15px 40px;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .header-content a.btn:hover {
+      background: #e08b0b;
+      transform: scale(1.05);
+    }
+    /* Secciones (sin opacidad 0 ni transform) */
+    section {
+      padding: 120px 20px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 2.8em;
+      margin-bottom: 50px;
+      position: relative;
+    }
+    .section-title::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 4px;
+      background: var(--accent-color);
+      margin: 20px auto 0;
+    }
+    /* Sección Sobre Mí */
+    #sobre-mi p {
+      font-size: 1.2em;
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+      line-height: 1.8;
+    }
+    /* Sección Habilidades */
+    #habilidades ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      list-style: none;
+    }
+    #habilidades ul li {
+      background: #111;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 1em;
+      transition: transform 0.3s, background 0.3s;
+    }
+    #habilidades ul li:hover {
+      transform: translateY(-5px);
+      background: var(--accent-color);
+      color: var(--bg-color);
+    }
+    /* Sección Proyectos */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+    .project-item {
+      background: #111;
+      border-radius: 15px;
+      overflow: hidden;
+      padding: 20px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .project-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+    }
+    .project-item h3 {
+      font-size: 1.6em;
+      margin-bottom: 10px;
+    }
+    .project-item p {
+      font-size: 1em;
+      line-height: 1.6;
+    }
+    .project-item a {
+      display: inline-block;
+      margin-top: 15px;
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    .project-item a:hover {
+      color: var(--primary-color);
+    }
+    /* Sección Experiencia */
+    #experiencia ul {
+      list-style: none;
+      max-width: 800px;
+      margin: auto;
+    }
+    #experiencia ul li {
+      margin-bottom: 30px;
+      padding-left: 20px;
+      border-left: 4px solid var(--accent-color);
+    }
+    #experiencia ul li strong {
+      font-size: 1.2em;
+    }
+    #experiencia ul li em {
+      font-size: 0.9em;
+      color: #aaa;
+    }
+    /* Sección Contacto */
+    #contacto form {
+      max-width: 600px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    #contacto form input,
+    #contacto form textarea {
+      padding: 15px;
+      background: #222;
+      border: none;
+      border-radius: 5px;
+      color: var(--primary-color);
+      font-size: 1em;
+    }
+    #contacto form button {
+      padding: 15px;
+      background: var(--accent-color);
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      font-weight: 600;
+      color: var(--bg-color);
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #contacto form button:hover {
+      background: #e08b0b;
+    }
+    /* Sección CV */
+    #cv {
+      text-align: center;
+    }
+    #cv a {
+      display: inline-block;
+      padding: 15px 40px;
+      background: var(--accent-color);
+      color: var(--bg-color);
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1.1em;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    #cv a:hover {
+      background: #e08b0b;
+    }
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #111;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+<!-- Preloader -->
+<div id="loader">
+  <div class="spinner"></div>
+</div>
+
+<!-- Navegación -->
+<nav>
+  <ul>
+    <li><a href="#inicio" class="nav-link active">Inicio</a></li>
+    <li><a href="#sobre-mi" class="nav-link">Sobre Mí</a></li>
+    <li><a href="#habilidades" class="nav-link">Habilidades</a></li>
+    <li><a href="#proyectos" class="nav-link">Proyectos</a></li>
+    <li><a href="#experiencia" class="nav-link">Experiencia</a></li>
+    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+    <li><a href="#cv" class="nav-link">CV</a></li>
+  </ul>
+</nav>
+
+<!-- Header -->
+<header id="inicio">
+  <div class="header-overlay"></div>
+  <div class="header-content">
+    <h1>David Santiago Ortiz Calderón</h1>
+    <div class="typewriter" id="typewriter"></div>
+    <a href="#sobre-mi" class="btn">Descubre Más</a>
+  </div>
+</header>
+
+<!-- Sobre Mí -->
+<section id="sobre-mi">
+  <div class="container">
+    <h2 class="section-title">Sobre Mí</h2>
+    <p>
+      Soy estudiante de Ingeniería de Sistemas en la Pontificia Universidad Javeriana.
+      Con experiencia en análisis de datos, ciberseguridad, desarrollo web full-stack
+      y aplicaciones móviles, me apasiona la tecnología y la innovación. Me destaco por
+      mi capacidad analítica, creatividad y determinación para enfrentar proyectos desafiantes.
+    </p>
+  </div>
+</section>
+
+<!-- Habilidades -->
+<section id="habilidades">
+  <div class="container">
+    <h2 class="section-title">Habilidades y Tecnologías</h2>
+    <ul>
+      <li>Análisis de Datos</li>
+      <li>Ciberseguridad</li>
+      <li>Desarrollo Web Full-Stack</li>
+      <li>Aplicaciones Móviles</li>
+      <li>Python, SQL, Java, C++, Kotlin</li>
+      <li>Frameworks: Spring y más</li>
+    </ul>
+  </div>
+</section>
+
+<!-- Proyectos -->
+<section id="proyectos">
+  <div class="container">
+    <h2 class="section-title">Proyectos</h2>
+    <div class="projects-grid">
+      <div class="project-item">
+        <h3>Plataforma de Gestión de Transporte Público</h3>
+        <p>Desarrollo de una plataforma que optimiza el transporte público integrando análisis de datos y un sistema intuitivo de gestión.</p>
+        <a href="https://github.com/DavzC" target="_blank">Ver en GitHub</a>
+      </div>
+      <div class="project-item">
+        <h3>Aplicación Móvil Tipo Red Social</h3>
+        <p>Creación de una aplicación móvil para conectar personas a través de intereses comunes y compartir experiencias.</p>
+        <a href="https://github.com/DavzC" target="_blank">Ver en GitHub</a>
+      </div>
+      <div class="project-item">
+        <h3>Resolver DNS</h3>
+        <p>Herramienta para resolver consultas DNS de forma eficiente y segura.</p>
+        <a href="https://github.com/DavzC" target="_blank">Ver en GitHub</a>
+      </div>
+      <div class="project-item">
+        <h3>Backend Basado en MQTT</h3>
+        <p>Implementación de un backend utilizando el protocolo MQTT para sistemas de comunicación en tiempo real.</p>
+        <a href="https://github.com/DavzC" target="_blank">Ver en GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experiencia -->
+<section id="experiencia">
+  <div class="container">
+    <h2 class="section-title">Experiencia</h2>
+    <ul>
+      <li>
+        <strong>Universidad Pontificia Javeriana</strong> – Estudiante de Ingeniería de Sistemas<br>
+        <em>Inicio – Proyección de Finalización</em>
+      </li>
+      <li>
+        <strong>Foros y Eventos Académicos</strong> – Participación en actividades de innovación y tecnología.
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Contacto -->
+<section id="contacto">
+  <div class="container">
+    <h2 class="section-title">Contacto</h2>
+    <p style="text-align: center;">
+      ¡Hablemos! Puedes comunicarte conmigo a través de los siguientes medios:
+    </p>
+    <ul style="text-align: center; list-style: none; padding: 0;">
+      <li>
+        Email: <a href="mailto:davidortiz37575@gmail.com" style="color: var(--accent-color);">
+        davidortiz37575@gmail.com
+      </a>
+      </li>
+      <li>Teléfono: +57 3219004241</li>
+      <li>
+        LinkedIn: <a href="https://www.linkedin.com/in/david-ortiz-b2136a1ba/"
+                     target="_blank" style="color: var(--accent-color);">
+        Ver Perfil
+      </a>
+      </li>
+      <li>
+        GitHub: <a href="https://github.com/DavzC" target="_blank" style="color: var(--accent-color);">
+        Ver Perfil
+      </a>
+      </li>
+    </ul>
+    <form action="#" method="post">
+      <input type="text" name="nombre" placeholder="Tu nombre" required>
+      <input type="email" name="email" placeholder="Tu email" required>
+      <textarea name="mensaje" placeholder="Tu mensaje" required></textarea>
+      <button type="submit">Enviar Mensaje</button>
+    </form>
+  </div>
+</section>
+
+<!-- CV -->
+<section id="cv">
+  <div class="container">
+    <h2 class="section-title">Currículum Vitae</h2>
+    <p>Descarga mi CV para conocer más detalles sobre mi formación y experiencia.</p>
+    <a href="ruta-al-cv/DavidOrtizCV.pdf" target="_blank">Descargar CV</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 David Santiago Ortiz Calderón. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Script para Preloader y Typewriter (SIN GSAP) -->
+<script>
+  // Preloader
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    loader.style.opacity = 0;
+    setTimeout(() => { loader.style.display = 'none'; }, 500);
+  });
+
+  // Efecto Typewriter
+  const typewriterElement = document.getElementById('typewriter');
+  const typewriterTexts = [
+    "Desarrollador Full-Stack",
+    "Apasionado por la Ciberseguridad",
+    "Innovador y Creativo"
+  ];
+  let typewriterIndex = 0, charIndex = 0;
+
+  function typewriter() {
+    if (typewriterIndex < typewriterTexts.length) {
+      if (charIndex < typewriterTexts[typewriterIndex].length) {
+        typewriterElement.textContent += typewriterTexts[typewriterIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typewriter, 100);
+      } else {
+        setTimeout(() => {
+          typewriterElement.textContent = "";
+          charIndex = 0;
+          typewriterIndex = (typewriterIndex + 1) % typewriterTexts.length;
+          setTimeout(typewriter, 500);
+        }, 2000);
+      }
+    }
+  }
+  typewriter();
+</script>
+</body>
+</html>
